@@ -25,3 +25,4 @@ This project implements a simplified yet secure electronic audit system for trac
 ├── ledger.json               # Decrypted audit log, with tamper-evident hashes
 ├── keys/                     # AES and ECDSA keys for encryption and signing
 ├── README.md                 # You're here!
+
