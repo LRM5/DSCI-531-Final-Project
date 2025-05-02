@@ -1,0 +1,36 @@
+## Commands
+
+### Generate Keys
+openssl rand -out keys/aes_key.bin 32
+openssl ecparam -genkey -name prime256v1 -out keys/client_priv.pem
+openssl ec -in keys/client_priv.pem -pubout -out keys/client_pub.pem
+openssl ecparam -genkey -name prime256v1 -out keys/server_priv.pem
+openssl ec -in keys/server_priv.pem -pubout -out keys/server_pub.pem
+
+### Audit Generation
+python3 audit_generator.py \
+  --user-id "Dr. Logan Murphey" \
+  --patient-id P-0001 \
+  --action query \
+  --aes-key keys/aes_key.bin \
+  --priv-key keys/client_priv.pem \
+  --output messages/entry1.json
+
+### Server Processes and Audit Entry Storage
+python3 client_server.py server \
+  --aes-key keys/aes_key.bin \
+  --pub-key keys/client_pub.pem
+
+### Client Query Commands
+python3 client_server.py server \
+  --aes-key keys/aes_key.bin \
+  --pub-key keys/client_pub.pem \
+  --query \
+  --patient-id P-0001
+
+### Tamper-Detection
+python3 client_server.py server \
+  --aes-key keys/aes_key.bin \
+  --pub-key keys/client_pub.pem \
+  --detect
+
